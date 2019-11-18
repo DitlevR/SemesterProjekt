@@ -41,8 +41,8 @@ public class SetupTestUsers {
     em.persist(both);
     em.getTransaction().commit();
     System.out.println("PW: " + user.getUserPass());
-    System.out.println("Testing user with OK password: " + user.verifyPassword("test"));
-    System.out.println("Testing user with wrong password: " + user.verifyPassword("test1"));
+    System.out.println("Testing user with OK password: " + user.verifyPassword("test" , user.getUserPass()));
+    System.out.println("Testing user with wrong password: " + user.verifyPassword("test1", user.getUserPass()));
     System.out.println("Created TEST Users");
    
   }
