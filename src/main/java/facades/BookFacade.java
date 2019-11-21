@@ -19,13 +19,17 @@ public class BookFacade {
     //Private Constructor to ensure Singleton
     private BookFacade() {
     }
-    
-     public static BookFacade getBookFacade (EntityManagerFactory _emf) {
+
+    public static BookFacade getBookFacade(EntityManagerFactory _emf) {
         if (instance == null) {
             emf = _emf;
             instance = new BookFacade();
         }
         return instance;
+    }
+
+    private EntityManager getEntityManager() {
+        return emf.createEntityManager();
     }
 
     public List<Book> getAllBooks() throws NotFoundException {
@@ -42,9 +46,7 @@ public class BookFacade {
         }
         return allBooks;
     }
-
-    private EntityManager getEntityManager() {
-        return emf.createEntityManager();
-    }
+    
+    
 
 }
