@@ -1,7 +1,9 @@
 package facades;
 
+import entities.Author;
+import entities.Book;
+import errorhandling.NotFoundException;
 import utils.EMF_Creator;
-import entities.RenameMe;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import org.junit.jupiter.api.AfterAll;
@@ -11,18 +13,17 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import utils.Settings;
 import utils.EMF_Creator.DbSelector;
 import utils.EMF_Creator.Strategy;
 
 //Uncomment the line below, to temporarily disable this test
 @Disabled
-public class FacadeExampleTest {
+public class BookFacadeTest {
 
     private static EntityManagerFactory emf;
-    private static FacadeExample facade;
+    private static BookFacade facade;
 
-    public FacadeExampleTest() {
+    public BookFacadeTest() {
     }
 
     //@BeforeAll
@@ -33,7 +34,7 @@ public class FacadeExampleTest {
                 "dev",
                 "ax2",
                 EMF_Creator.Strategy.CREATE);
-        facade = FacadeExample.getFacadeExample(emf);
+        facade = BookFacade.getBookFacade(emf);
     }
 
     /*   **** HINT **** 
@@ -44,8 +45,8 @@ public class FacadeExampleTest {
      */
     @BeforeAll
     public static void setUpClassV2() {
-       emf = EMF_Creator.createEntityManagerFactory(DbSelector.TEST,Strategy.DROP_AND_CREATE);
-       facade = FacadeExample.getFacadeExample(emf);
+        emf = EMF_Creator.createEntityManagerFactory(DbSelector.TEST, Strategy.DROP_AND_CREATE);
+        facade = BookFacade.getBookFacade(emf);
     }
 
     @AfterAll
@@ -58,11 +59,13 @@ public class FacadeExampleTest {
     @BeforeEach
     public void setUp() {
         EntityManager em = emf.createEntityManager();
+        Author a3 = new Author("Gro Steinsland");
         try {
+
             em.getTransaction().begin();
             em.createNamedQuery("RenameMe.deleteAllRows").executeUpdate();
-            em.persist(new RenameMe("Some txt", "More text"));
-            em.persist(new RenameMe("aaa", "bbb"));
+            em.persist(new Book("Nordisk mytologi", "Beskrivelse af gammel nordisk mytologi og samfund", 502, a3));
+            em.persist(new Book("Runer", "Om runernes funktion og oprindelse", 332, a3));
 
             em.getTransaction().commit();
         } finally {
@@ -77,8 +80,8 @@ public class FacadeExampleTest {
 
     // TODO: Delete or change this method 
     @Test
-    public void testAFacadeMethod() {
-        assertEquals(2, facade.getRenameMeCount(), "Expects two rows in the database");
+    public void testAFacadeMethod() throws NotFoundException {
+        assertEquals(2, facade.getAllBooks(), "Expects two rows in the database");
     }
 
 }

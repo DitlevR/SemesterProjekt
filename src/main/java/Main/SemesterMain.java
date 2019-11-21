@@ -21,10 +21,10 @@ public class SemesterMain {
     
      public static final EntityManagerFactory EMF = EMF_Creator.createEntityManagerFactory(
             "pu",
-            "jdbc:mysql://localhost:3307/security_base",
+            "jdbc:mysql://localhost:3307/sem3project",
             "dev",
             "ax2",
-            EMF_Creator.Strategy.DROP_AND_CREATE);
+            EMF_Creator.Strategy.CREATE);
      public static final UserFacade FACADE =  UserFacade.getUserFacade(EMF);
 
     /**
@@ -38,6 +38,7 @@ public class SemesterMain {
         Author a1 = new Author("Hunter S. Thompson");
         Author a2 = new Author("Grethe Jacobsen");
         Author a3 = new Author("Gro Steinsland");
+        
         
         Book b1 = new Book("Nordisk mytologi", "Beskrivelse af gammel nordisk mytologi og samfund", 502, a3);
         Book b2 = new Book("Runer", "Om runernes funktion og oprindelse", 332, a3);
