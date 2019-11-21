@@ -47,7 +47,7 @@ public class BookResource {
     @Produces({MediaType.APPLICATION_JSON})
     //@RolesAllowed("user")
     public String getAllBooks() throws NotFoundException{
-        return "{\"Books\":" + GSON.toJson(new BooksDTO(FACADE.getAllBooks())) + "}";  //Done manually so no need for a DTO
+        return GSON.toJson(new BooksDTO(FACADE.getAllBooks()));
     }
     
     @Path("{search}")
