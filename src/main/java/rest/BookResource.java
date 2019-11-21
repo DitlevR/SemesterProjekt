@@ -2,11 +2,13 @@ package rest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import dtos.BookDTO;
 import dtos.BooksDTO;
 import entities.Book;
 import errorhandling.NotFoundException;
 import utils.EMF_Creator;
 import facades.BookFacade;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.security.RolesAllowed;
 import javax.persistence.EntityManagerFactory;
@@ -46,15 +48,29 @@ public class BookResource {
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     //@RolesAllowed("user")
-    public String getAllBooks() throws NotFoundException{
-        return GSON.toJson(new BooksDTO(FACADE.getAllBooks()));
+    public String getAllBooks() throws NotFoundException {
+        //BooksDTO allbooks = new BooksDTO(FACADE.getAllBooks());
+        List<BookDTO> allbooks = new ArrayList<>();
+        List<Book> books = FACADE.getAllBooks();
+        for (Book b : books) {
+            allbooks.add(new BookDTO(b));
+        }
+
+        return GSON.toJson(allbooks);
     }
-    
+
     @Path("{search}")
     @GET
     @Produces({MediaType.APPLICATION_JSON})
-    public String makeSearch(@PathParam ("search") String search) throws NotFoundException {
-        return GSON.toJson(new BooksDTO(FACADE.searchForBook(search)));
+    public String makeSearch(@PathParam("search") String search) throws NotFoundException {
+        List<BookDTO> result = new ArrayList<>();
+        List<Book> books = FACADE.searchForBook(search);
+        
+        for(Book b : books) {
+            result.add(new BookDTO(b));
+        }
+
+        return GSON.toJson(result);
     }
 
 }
