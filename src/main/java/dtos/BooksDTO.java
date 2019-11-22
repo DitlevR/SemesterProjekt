@@ -18,7 +18,7 @@ public class BooksDTO {
     public BooksDTO(List<Book> books) {
         
         for(int i = 0; i < books.size(); i++) {
-            booksDTO.add(new BookDTO(books.get(i)));
+            this.booksDTO.add(new BookDTO(books.get(i)));
             
         }
     }

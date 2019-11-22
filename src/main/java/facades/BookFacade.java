@@ -47,6 +47,21 @@ public class BookFacade {
         return allBooks;
     }
     
+    public List<Book> searchForBook(String search) throws NotFoundException {
+        
+        List<Book> all = getAllBooks();
+        List<Book> result = new ArrayList<>();
+        for(int i = 0; i < all.size(); i++) {
+            if(all.get(i).toString().contains(search)) {
+                result.add(all.get(i));
+            } 
+            
+        }
+        return result;
+    
+        
+    }
+    
     
 
 }
