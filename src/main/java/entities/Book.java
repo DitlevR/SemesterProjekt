@@ -27,6 +27,10 @@ public class Book implements Serializable {
     private String description;
     @Column(name = "book_pagenumber")
     private int pageNumber;
+    @Column(name = "book_year")
+    private int year;
+    @Column(name = "book_status")
+    private boolean status;
     
     @JoinColumn(name = "book_author")
     @ManyToOne
@@ -35,17 +39,21 @@ public class Book implements Serializable {
     public Book() {
     }
 
-    public Book(String title, String description, int pageNumber) {
+    public Book(String title, String description, int pageNumber, int year) {
         this.title = title;
         this.description = description;
         this.pageNumber = pageNumber;
+        this.year = year;
+        this.status = false;
     }
 
-    public Book(String title, String description, int pageNumber, Author author) {
+    public Book(String title, String description, int pageNumber, Author author, int year) {
         this.title = title;
         this.description = description;
         this.pageNumber = pageNumber;
         this.author = author;
+        this.year = year;
+        this.status = false;
     }
 
     public void setAuthor(Author author) {
@@ -58,6 +66,22 @@ public class Book implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }  
+    
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 
     @Override
@@ -92,9 +116,6 @@ public class Book implements Serializable {
     public Author getAuthor() {
         return author;
     }
-    
-    
-    
     
    
 }

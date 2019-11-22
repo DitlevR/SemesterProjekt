@@ -64,8 +64,8 @@ public class BookFacadeTest {
 
             em.getTransaction().begin();
             em.createNamedQuery("RenameMe.deleteAllRows").executeUpdate();
-            em.persist(new Book("Nordisk mytologi", "Beskrivelse af gammel nordisk mytologi og samfund", 502, a3));
-            em.persist(new Book("Runer", "Om runernes funktion og oprindelse", 332, a3));
+            em.persist(new Book("Nordisk mytologi", "Beskrivelse af gammel nordisk mytologi og samfund", 502, a3, 1990));
+            em.persist(new Book("Runer", "Om runernes funktion og oprindelse", 332, a3, 2008));
 
             em.getTransaction().commit();
         } finally {
