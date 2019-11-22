@@ -21,6 +21,12 @@ public class BooksDTO {
             this.booksDTO.add(new BookDTO(books.get(i)));
             
         }
+        
+        
+    }
+
+    public List<BookDTO> getBooksDTO() {
+        return booksDTO;
     }
     
     

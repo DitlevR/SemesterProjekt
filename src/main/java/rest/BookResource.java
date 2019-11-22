@@ -3,14 +3,12 @@ package rest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dtos.BookDTO;
-import dtos.BooksDTO;
 import entities.Book;
 import errorhandling.NotFoundException;
 import utils.EMF_Creator;
 import facades.BookFacade;
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.security.RolesAllowed;
 import javax.persistence.EntityManagerFactory;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -20,8 +18,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriInfo;
-import net.minidev.json.JSONArray;
-import static org.eclipse.persistence.expressions.ExpressionOperator.count;
 
 //Todo Remove or change relevant parts before ACTUAL use
 @Path("book")
@@ -55,6 +51,7 @@ public class BookResource {
         for (Book b : books) {
             allbooks.add(new BookDTO(b));
         }
+        
 
         return GSON.toJson(allbooks);
     }

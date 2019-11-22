@@ -17,12 +17,16 @@ public class BookDTO {
     private String description;
     private int pageNumber;
     private String author;
+    private int year;
+    private boolean status;
     
     public BookDTO(Book book) {
         this.title = book.getTitle();
         this.description = book.getDescription();
         this.pageNumber = book.getPageNumber();
         this.author = book.getAuthor().getName();
+        this.year = book.getYear();
+        this.status = book.isStatus();
     }
     
     
