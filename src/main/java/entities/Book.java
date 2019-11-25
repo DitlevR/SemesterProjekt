@@ -36,6 +36,10 @@ public class Book implements Serializable {
     @ManyToOne
     private Author author;
     
+    @JoinColumn(name = "book_lender")
+    @ManyToOne
+    private User user;
+    
     public Book() {
     }
 
@@ -58,6 +62,16 @@ public class Book implements Serializable {
 
     public void setAuthor(Author author) {
         this.author = author;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+        this.status = true;
+    }
+    
+    public void unSetUser(){
+        this.user = null;
+        this.status = false;
     }
         
     public Long getId() {

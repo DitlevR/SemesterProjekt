@@ -7,6 +7,7 @@ package Main;
 
 import entities.Author;
 import entities.Book;
+import entities.User;
 import facades.UserFacade;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -24,7 +25,7 @@ public class SemesterMain {
             "jdbc:mysql://localhost:3307/sem3project",
             "dev",
             "ax2",
-            EMF_Creator.Strategy.CREATE);
+            EMF_Creator.Strategy.DROP_AND_CREATE);//DROP_AND_CREATE CREATE
      public static final UserFacade FACADE =  UserFacade.getUserFacade(EMF);
 
     /**
@@ -37,8 +38,7 @@ public class SemesterMain {
         
         Author a1 = new Author("Hunter S. Thompson");
         Author a2 = new Author("Grethe Jacobsen");
-        Author a3 = new Author("Gro Steinsland");
-        
+        Author a3 = new Author("Gro Steinsland");        
         
         Book b1 = new Book("Nordisk mytologi", "Beskrivelse af gammel nordisk mytologi og samfund", 502, a3, 1988);
         Book b2 = new Book("Runer", "Om runernes funktion og oprindelse", 332, a3, 2003);
@@ -48,6 +48,17 @@ public class SemesterMain {
         Book b6 = new Book("Hell's Angels", "Journalist lever blandt Hell's Angels i et helt år", 543, a1, 1967);
         Book b7 = new Book("Rom dagbogen", "En journalist flytter til Puerto Rico", 233, a1, 1998);
         
+        User u1 = new User("Anne", "imorgeniaften");
+        User u2 = new User("Sigurd", "ormiøje");
+        
+        b1.setUser(u1);
+        b2.setUser(u1);
+        b3.setUser(u2);
+        b4.setUser(u2);
+        
+        b1.unSetUser();
+        b3.unSetUser();
+
         //em.persist(b);
         try{
              em.getTransaction().begin();
@@ -61,6 +72,8 @@ public class SemesterMain {
              em.persist(b5);
              em.persist(b6);
              em.persist(b7);
+             em.persist(u1);
+             em.persist(u2);
              em.getTransaction().commit();
         } finally {
             em.close();
