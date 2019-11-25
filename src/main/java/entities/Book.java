@@ -1,12 +1,15 @@
 package entities;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -36,9 +39,9 @@ public class Book implements Serializable {
     @ManyToOne
     private Author author;
     
-    @JoinColumn(name = "book_lender")
-    @ManyToOne
-    private User user;
+    
+    @ManyToMany
+    private List<User> userlist;
     
     public Book() {
     }
@@ -64,15 +67,7 @@ public class Book implements Serializable {
         this.author = author;
     }
 
-    public void setUser(User user) {
-        this.user = user;
-        this.status = true;
-    }
-    
-    public void unSetUser(){
-        this.user = null;
-        this.status = false;
-    }
+   
         
     public Long getId() {
         return id;

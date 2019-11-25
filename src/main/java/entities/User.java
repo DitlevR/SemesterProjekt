@@ -37,8 +37,11 @@ public class User implements Serializable {
     @ManyToMany
     private List<Role> roleList = new ArrayList();
     
-    @OneToMany(mappedBy = "user")
-    private List<Book> books = new ArrayList();
+   @JoinTable(name = "book_lenders", joinColumns = {
+        @JoinColumn(name = "user_name", referencedColumnName = "user_name")}, inverseJoinColumns = {
+        @JoinColumn(name = "book_id", referencedColumnName = "ID")})
+    @ManyToMany
+    private List<Book> booklist;
 
     public List<String> getRolesAsStrings() {
         if (roleList.isEmpty()) {
@@ -93,4 +96,13 @@ public class User implements Serializable {
         roleList.add(userRole);
     }
 
+    public List<Book> getBooklist() {
+        return booklist;
+    }
+
+    public void setBooklist(List<Book> booklist) {
+        this.booklist = booklist;
+    }
+
+    
 }

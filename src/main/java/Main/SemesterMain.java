@@ -9,6 +9,8 @@ import entities.Author;
 import entities.Book;
 import entities.User;
 import facades.UserFacade;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -51,13 +53,15 @@ public class SemesterMain {
         User u1 = new User("Anne", "imorgeniaften");
         User u2 = new User("Sigurd", "ormiøje");
         
-        b1.setUser(u1);
-        b2.setUser(u1);
-        b3.setUser(u2);
-        b4.setUser(u2);
+        List<Book> booklist = new ArrayList<>();
         
-        b1.unSetUser();
-        b3.unSetUser();
+        booklist.add(b1);
+        booklist.add(b2);
+        booklist.add(b3);
+        booklist.add(b4);
+        
+       u1.setBooklist(booklist);
+       u2.setBooklist(booklist);
 
         //em.persist(b);
         try{
