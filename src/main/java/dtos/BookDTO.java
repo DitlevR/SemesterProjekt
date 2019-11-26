@@ -13,6 +13,7 @@ import entities.Book;
  * @author Rumle
  */
 public class BookDTO {
+    private long id;
     private String title;
     private String description;
     private int pageNumber;
@@ -21,6 +22,7 @@ public class BookDTO {
     private boolean status;
     
     public BookDTO(Book book) {
+        this.id = book.getId();
         this.title = book.getTitle();
         this.description = book.getDescription();
         this.pageNumber = book.getPageNumber();

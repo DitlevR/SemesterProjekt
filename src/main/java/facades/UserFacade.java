@@ -4,6 +4,8 @@ import entities.User;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import errorhandling.AuthenticationException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author lam@cphbusiness.dk
@@ -40,6 +42,20 @@ public class UserFacade {
             em.close();
         }
         return user;
+    }
+    
+    public List<User> getAllUsers() {
+       EntityManager em = emf.createEntityManager();
+       List<User> allusers = new ArrayList<>();
+       try {
+           em.getTransaction().begin();
+           allusers = em.createQuery("select u from User u", User.class).getResultList();
+           em.getTransaction().commit();
+           return allusers;
+       } finally {
+           em.close();
+       }
+       
     }
 
 }

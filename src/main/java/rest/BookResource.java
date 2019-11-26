@@ -10,7 +10,9 @@ import facades.BookFacade;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -68,6 +70,24 @@ public class BookResource {
         }
 
         return GSON.toJson(result);
+    }
+    
+    @Path("add/loan")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String setBookToLoan(String info) {
+        //String id = GSON.fromJson(, );
+                return "hej";
+    }
+    
+    @Path("add/book")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String saveBook(String book) {
+        BookDTO savebook = GSON.fromJson(book, BookDTO.class);
+        return GSON.toJson(savebook);
     }
 
 }

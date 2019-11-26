@@ -14,7 +14,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
-
 @Entity
 @Table(name = "books")
 @NamedQuery(name = "Book.deleteAllRows", query = "DELETE from Book")
@@ -34,15 +33,14 @@ public class Book implements Serializable {
     private int year;
     @Column(name = "book_status")
     private boolean status;
-    
+
     @JoinColumn(name = "book_author")
     @ManyToOne
     private Author author;
-    
-    
-    @ManyToMany
+
+    @ManyToMany(mappedBy = "booklist")
     private List<User> userlist;
-    
+
     public Book() {
     }
 
@@ -67,8 +65,6 @@ public class Book implements Serializable {
         this.author = author;
     }
 
-   
-        
     public Long getId() {
         return id;
     }
@@ -87,8 +83,8 @@ public class Book implements Serializable {
 
     public boolean isStatus() {
         return status;
-    }  
-    
+    }
+
     public void setStatus(boolean status) {
         this.status = status;
     }
@@ -125,6 +121,5 @@ public class Book implements Serializable {
     public Author getAuthor() {
         return author;
     }
-    
-   
+
 }
