@@ -24,7 +24,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriInfo;
 
-
 @Path("user")
 public class UserResource {
 
@@ -44,24 +43,31 @@ public class UserResource {
 
         return "{\"User\":" + "}";
     }
-        
-        @Path("allusers")
-        @GET
-        @Produces({MediaType.APPLICATION_JSON})
-        public String getAllUsers() {
-            
-            List<User> allusers = USERFACADE.getAllUsers();
-            List<UserDTO> dtos = new ArrayList<>();
-            for(int i = 0; i < allusers.size(); i++) {
-                dtos.add(new UserDTO(allusers.get(i)));
-            }
-            
-            return GSON.toJson(dtos);
-            
-        }
-        
-        
-    
 
+    @Path("allusers")
+    @GET
+    @Produces({MediaType.APPLICATION_JSON})
+    public String getAllUsers() {
+
+        List<User> allusers = USERFACADE.getAllUsers();
+        List<UserDTO> dtos = new ArrayList<>();
+        for (int i = 0; i < allusers.size(); i++) {
+            dtos.add(new UserDTO(allusers.get(i)));
+        }
+
+        return GSON.toJson(dtos);
+
+    }
+
+    @Path("/{username}")
+    @GET
+    @Produces({MediaType.APPLICATION_JSON})
+    public String getUser(@PathParam("username") String username) throws NotFoundException {
+
+        UserDTO user = new UserDTO(USERFACADE.getUser(username));
+
+        return GSON.toJson(user);
+
+    }
 
 }

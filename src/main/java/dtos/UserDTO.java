@@ -5,6 +5,7 @@
  */
 package dtos;
 
+import entities.Book;
 import entities.User;
 import java.util.List;
 
@@ -15,13 +16,14 @@ import java.util.List;
 public class UserDTO {
 
     private String name;
-
-    private List<String> roles;
-    private Long books;
+private List<String> roles;
+    private List<BookDTO> booksLoaned;
 
     public UserDTO(User user) {
         this.name = user.getUserName();
         this.roles = user.getRolesAsStrings();
+        this.booksLoaned = new BooksDTO(user.getBooklist()).getBooksDTO();
+        
         
         
         
