@@ -103,6 +103,9 @@ public class User implements Serializable {
     public void setBooklist(List<Book> booklist) {
         this.booklist = booklist;
     }
+    public void LoanBook(Book book) {
+        this.booklist.add(book);
+    }
 
     
 }

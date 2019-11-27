@@ -84,7 +84,7 @@ public class BookFacade {
          try {
              em.getTransaction().begin();
              book = em.find(Book.class, id);
-             book.setStatus(false);
+             book.setStatus(true);
              em.persist(book);
              em.getTransaction().commit();
              return book;
