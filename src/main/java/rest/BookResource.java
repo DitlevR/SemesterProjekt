@@ -72,13 +72,12 @@ public class BookResource {
         return GSON.toJson(result);
     }
     
-    @Path("add/loan")
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("loanbook/{id}")
+    @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public String setBookToLoan(String info) {
-        //String id = GSON.fromJson(, );
-                return "hej";
+    public String setBookToLoan(@PathParam ("id") long id) {
+        BookDTO dto = new BookDTO(FACADE.setBookToLoaned(id));
+                return GSON.toJson(dto);
     }
     
     @Path("add/book")
@@ -86,7 +85,7 @@ public class BookResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public String saveBook(String book) {
-        BookDTO savebook = GSON.fromJson(book, BookDTO.class);
+        BookDTO savebook = new BookDTO(GSON.fromJson(book, Book.class));
         return GSON.toJson(savebook);
     }
     
@@ -97,6 +96,8 @@ public class BookResource {
         BookDTO dto = new BookDTO(FACADE.getBook(id));
         return GSON.toJson(dto);
     }
+    
+    
     
 
 }

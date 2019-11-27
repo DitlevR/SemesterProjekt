@@ -78,6 +78,22 @@ public class BookFacade {
          }
     }
     
+    public Book setBookToLoaned(long id) {
+         EntityManager em = getEntityManager();
+         Book book;
+         try {
+             em.getTransaction().begin();
+             book = em.find(Book.class, id);
+             book.setStatus(false);
+             em.persist(book);
+             em.getTransaction().commit();
+             return book;
+             
+         } finally {
+             em.close();
+         }
+    }
+    
     
 
 }

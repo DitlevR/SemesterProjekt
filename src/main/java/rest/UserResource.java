@@ -69,5 +69,6 @@ public class UserResource {
         return GSON.toJson(user);
 
     }
+    
 
 }
