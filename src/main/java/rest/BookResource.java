@@ -89,5 +89,14 @@ public class BookResource {
         BookDTO savebook = GSON.fromJson(book, BookDTO.class);
         return GSON.toJson(savebook);
     }
+    
+    @Path("getbook/{id}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getBook(@PathParam ("id") long id) throws NotFoundException {
+        BookDTO dto = new BookDTO(FACADE.getBook(id));
+        return GSON.toJson(dto);
+    }
+    
 
 }

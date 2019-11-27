@@ -62,6 +62,22 @@ public class BookFacade {
         
     }
     
+    public Book getBook(long id) throws NotFoundException {
+         EntityManager em = getEntityManager();
+         Book book;
+         try {
+             
+             book = em.find(Book.class, id);
+             
+             if(book == null) {
+                 throw new NotFoundException("Book not found");
+             }
+             return book;
+         } finally {
+             em.close();
+         }
+    }
+    
     
 
 }
