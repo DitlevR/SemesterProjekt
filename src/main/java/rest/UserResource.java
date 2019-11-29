@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dtos.BookDTO;
 import dtos.UserDTO;
+import dtos.UserPassDTO;
 import entities.Book;
 import entities.User;
 import errorhandling.MissingInputException;
@@ -47,11 +48,11 @@ public class UserResource {
     
     @Path("register")
     @POST
-    @Produces({MediaType.APPLICATION_JSON})
+    //@Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_JSON})
     public String registerUser(String user) throws MissingInputException {
-        UserDTO userdto = GSON.fromJson(user, UserDTO.class);
-        User u = USERFACADE.createUser(userdto.getName(), userdto.getUserpass());
+        UserPassDTO userpassdto = GSON.fromJson(user, UserPassDTO.class);
+        User u = USERFACADE.createUser(userpassdto.getName(), userpassdto.getUserpass());
         
         return GSON.toJson(new UserDTO(u));
     }
