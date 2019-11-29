@@ -113,5 +113,15 @@ public class BookResource {
         return GSON.toJson(new UserDTO(user));
         
     }
+    
+    @Path("userReturnBook")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String returnBook(String json) throws NotFoundException {
+        BookLend booklend = GSON.fromJson(json, BookLend.class);
+        User user = USERFACADE.userReturnBook(booklend.getUsername(), booklend.getBook_id());
+        return GSON.toJson(new UserDTO(user));
+    }
 
 }
