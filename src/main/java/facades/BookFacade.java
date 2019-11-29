@@ -1,6 +1,7 @@
 package facades;
 
 import entities.Book;
+import errorhandling.MissingInputException;
 import errorhandling.NotFoundException;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,54 +47,68 @@ public class BookFacade {
         }
         return allBooks;
     }
-    
+
     public List<Book> searchForBook(String search) throws NotFoundException {
-        
+
         List<Book> all = getAllBooks();
         List<Book> result = new ArrayList<>();
-        for(int i = 0; i < all.size(); i++) {
-            if(all.get(i).toString().contains(search)) {
+        for (int i = 0; i < all.size(); i++) {
+            if (all.get(i).toString().contains(search)) {
                 result.add(all.get(i));
-            } 
-            
+            }
+
         }
         return result;
-    
-        
+
     }
-    
+
     public Book getBook(long id) throws NotFoundException {
-         EntityManager em = getEntityManager();
-         Book book;
-         try {
-             
-             book = em.find(Book.class, id);
-             
-             if(book == null) {
-                 throw new NotFoundException("Book not found");
-             }
-             return book;
-         } finally {
-             em.close();
-         }
+        EntityManager em = getEntityManager();
+        Book book;
+        try {
+
+            book = em.find(Book.class, id);
+
+            if (book == null) {
+                throw new NotFoundException("Book not found");
+            }
+            return book;
+        } finally {
+            em.close();
+        }
     }
-    
+
     public Book setBookToLoaned(long id) {
-         EntityManager em = getEntityManager();
-         Book book;
-         try {
-             em.getTransaction().begin();
-             book = em.find(Book.class, id);
-             book.setStatus(true);
-             em.persist(book);
-             em.getTransaction().commit();
-             return book;
-             
-         } finally {
-             em.close();
-         }
+        EntityManager em = getEntityManager();
+        Book book;
+        try {
+            em.getTransaction().begin();
+            book = em.find(Book.class, id);
+            book.setStatus(true);
+            em.persist(book);
+            em.getTransaction().commit();
+            return book;
+
+        } finally {
+            em.close();
+        }
     }
-    
-    
+
+    public Book saveBook(String title, String description, int pageNumber, int year) throws MissingInputException {
+        EntityManager em = getEntityManager();
+        Book book = new Book(title, description, pageNumber, year);
+        if (title == null || description == null
+                || title == "" || description == "" || pageNumber == 0 || year == 0) {
+            throw new MissingInputException("Missung input for book");
+        }
+
+        try {
+            em.persist(book);
+            return book;                                                            
+        } finally {
+            em.close();
+        }
+
+    }
 
 }

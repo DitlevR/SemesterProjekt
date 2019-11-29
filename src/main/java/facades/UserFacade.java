@@ -1,5 +1,6 @@
 package facades;
 
+import entities.Book;
 import entities.User;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -92,10 +93,29 @@ public User getUser(String username) throws NotFoundException {
     }
 }
 
-//public User loanBook(String username, int id) {
-//    EntityManager em = emf.createEntityManager();
-//    User user;
-//    
-//    
-//}
+public User userloanBook(String username, long id) throws NotFoundException {
+    EntityManager em = emf.createEntityManager();
+    User user;
+    Book book;
+    
+    try {
+        em.getTransaction().begin();
+        user = em.find(User.class, username);
+        book = em.find(Book.class, id);
+        user.LoanBook(book);
+        em.merge(user);
+        em.getTransaction().commit();
+        if(user == null || book == null) {
+            throw new NotFoundException("User or book not found");
+        }
+        return user;
+        
+        
+    } finally {
+        em.close();
+        
+    }
+    
+    
+}
 }

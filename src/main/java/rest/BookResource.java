@@ -3,10 +3,15 @@ package rest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dtos.BookDTO;
+import dtos.BookLend;
+import dtos.UserDTO;
 import entities.Book;
+import entities.User;
+import errorhandling.MissingInputException;
 import errorhandling.NotFoundException;
 import utils.EMF_Creator;
 import facades.BookFacade;
+import facades.UserFacade;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
@@ -34,6 +39,7 @@ public class BookResource {
     SecurityContext securityContext;
     private static final BookFacade FACADE = BookFacade.getBookFacade(EMF);
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
+    private static final UserFacade USERFACADE = UserFacade.getUserFacade(EMF);
 
     @GET
     @Produces({MediaType.APPLICATION_JSON})
@@ -53,7 +59,6 @@ public class BookResource {
         for (Book b : books) {
             allbooks.add(new BookDTO(b));
         }
-        
 
         return GSON.toJson(allbooks);
     }
@@ -64,40 +69,49 @@ public class BookResource {
     public String makeSearch(@PathParam("search") String search) throws NotFoundException {
         List<BookDTO> result = new ArrayList<>();
         List<Book> books = FACADE.searchForBook(search);
-        
-        for(Book b : books) {
+
+        for (Book b : books) {
             result.add(new BookDTO(b));
         }
 
         return GSON.toJson(result);
     }
-    
+
     @Path("loanbook/{id}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public String setBookToLoan(@PathParam ("id") long id) {
+    public String setBookToLoan(@PathParam("id") long id) {
         BookDTO dto = new BookDTO(FACADE.setBookToLoaned(id));
-                return GSON.toJson(dto);
+        return GSON.toJson(dto);
     }
-    
-    @Path("add/book")
+
+    @Path("add")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public String saveBook(String book) {
-        BookDTO savebook = new BookDTO(GSON.fromJson(book, Book.class));
-        return GSON.toJson(savebook);
+    public String saveBook(String book) throws MissingInputException {
+        Book newbook = GSON.fromJson(book, Book.class);
+        newbook = FACADE.saveBook(newbook.getTitle(), newbook.getDescription(), newbook.getPageNumber(), newbook.getYear());
+        return GSON.toJson(newbook);
     }
-    
+
     @Path("getbook/{id}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public String getBook(@PathParam ("id") long id) throws NotFoundException {
+    public String getBook(@PathParam("id") long id) throws NotFoundException {
         BookDTO dto = new BookDTO(FACADE.getBook(id));
         return GSON.toJson(dto);
     }
-    
-    
-    
+
+    @Path("userLoanBook")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String userLoanBook(String json) throws NotFoundException {
+        BookLend booklend = GSON.fromJson(json, BookLend.class);
+        User user = USERFACADE.userloanBook(booklend.getUsername(), booklend.getBook_id());
+        return GSON.toJson(new UserDTO(user));
+        
+    }
 
 }
