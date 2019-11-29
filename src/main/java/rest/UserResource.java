@@ -6,6 +6,7 @@ import dtos.BookDTO;
 import dtos.UserDTO;
 import entities.Book;
 import entities.User;
+import errorhandling.MissingInputException;
 import errorhandling.NotFoundException;
 import utils.EMF_Creator;
 import facades.BookFacade;
@@ -42,6 +43,17 @@ public class UserResource {
     public String book() {
 
         return "{\"User\":" + "}";
+    }
+    
+    @Path("register")
+    @POST
+    @Produces({MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.APPLICATION_JSON})
+    public String registerUser(String user) throws MissingInputException {
+        UserDTO userdto = GSON.fromJson(user, UserDTO.class);
+        User u = USERFACADE.createUser(userdto.getName(), userdto.getUserpass());
+        
+        return GSON.toJson(new UserDTO(u));
     }
 
     @Path("allusers")

@@ -4,6 +4,7 @@ import entities.User;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import errorhandling.AuthenticationException;
+import errorhandling.MissingInputException;
 import errorhandling.NotFoundException;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,25 @@ public class UserFacade {
             instance = new UserFacade();
         }
         return instance;
+    }
+    
+    public User createUser(String username, String password) throws MissingInputException {
+        EntityManager em = emf.createEntityManager();
+        
+        if(username == null || password == null) {
+            throw new MissingInputException();
+        }
+        
+        User user = new User(username, password);
+        
+        try{
+            em.getTransaction().begin();
+            em.persist(user);
+            em.getTransaction().commit();
+        }finally{
+            em.close();
+        }
+        return user;
     }
     
     public User getVeryfiedUser(String username, String password) throws AuthenticationException {
