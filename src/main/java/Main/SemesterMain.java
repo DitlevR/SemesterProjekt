@@ -40,7 +40,7 @@ public class SemesterMain {
         //EntityManager em = EMF.createEntityManager();
         
         //createUser() fra UserFacade virker
-//        FACADE.createUser("Anne", "blitter");
+        FACADE.createUser("Emner", "112itter");
 //        FACADE.createUser("Ulrik", "1rtef5er");
         
         

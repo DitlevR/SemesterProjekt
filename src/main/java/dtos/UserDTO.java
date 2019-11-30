@@ -15,10 +15,10 @@ import java.util.List;
  */
 public class UserDTO {
 
-    public String name;
+    private String name;
     private List<String> roles;
     private List<BookDTO> booksLoaned;
-    //public String userpass;
+    //private String userpass;
 
     public UserDTO(User user) {
         //this.userpass = user.getUserPass();
@@ -26,5 +26,13 @@ public class UserDTO {
         this.roles = user.getRolesAsStrings();
         this.booksLoaned = new BooksDTO(user.getBooklist()).getBooksDTO();
     }
-   
+
+    public String getName() {
+        return name;
+    }
+
+//    public String getUserpass() {
+//        return userpass;
+//    }
+
 }
