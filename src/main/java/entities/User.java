@@ -107,5 +107,8 @@ public class User implements Serializable {
         this.booklist.add(book);
     }
 
+    public void removeLoanedBook(Book book) {
+        this.booklist.remove(book);
+    }
     
 }

@@ -117,5 +117,32 @@ public User userloanBook(String username, long id) throws NotFoundException {
     }
     
     
+    
+    
+}
+
+public User userReturnBook(String username, long book_id) throws NotFoundException {
+    EntityManager em = emf.createEntityManager();
+    User user;
+    Book book;
+    try {
+        em.getTransaction().begin();
+        user = em.find(User.class, username);
+        book = em.find(Book.class, book_id);
+        if(!user.getBooklist().contains(book)) {
+             throw new NotFoundException("user has not that book as loaned");
+        }
+        user.removeLoanedBook(book);
+        em.merge(user);
+        em.getTransaction().commit();
+         if(user == null || book == null) {
+            throw new NotFoundException("User or book not found");
+        }
+        return user;
+        
+        
+    } finally {
+        em.close();
+    }
 }
 }

@@ -35,11 +35,13 @@ public class Book implements Serializable {
     private boolean status;
 
     @JoinColumn(name = "book_author")
-    @ManyToOne
+    @ManyToOne 
     private Author author;
 
     @ManyToMany(mappedBy = "booklist")
     private List<User> userlist;
+    
+    
 
     public Book() {
     }
