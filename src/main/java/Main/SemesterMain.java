@@ -41,6 +41,10 @@ public class SemesterMain {
         
 //        createUser() fra UserFacade virker
 //        FACADE.createUser("Anne", "blitter");
+
+        //createUser() fra UserFacade virker
+        FACADE.createUser("Emner", "112itter");
+
 //        FACADE.createUser("Ulrik", "1rtef5er");
         
         
