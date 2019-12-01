@@ -2,6 +2,7 @@ package entities;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -12,6 +13,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.mindrot.jbcrypt.BCrypt;
@@ -42,6 +45,10 @@ public class User implements Serializable {
         @JoinColumn(name = "book_id", referencedColumnName = "ID")})
     @ManyToMany
     private List<Book> booklist;
+   
+   
+//   @OneToMany(mappedBy = "user")
+//    private DateOfLoan date;
 
     public List<String> getRolesAsStrings() {
         if (roleList.isEmpty()) {
@@ -53,6 +60,7 @@ public class User implements Serializable {
         }
         return rolesAsStrings;
     }
+    
 
     public User() {
     }
@@ -110,5 +118,13 @@ public class User implements Serializable {
     public void removeLoanedBook(Book book) {
         this.booklist.remove(book);
     }
+
+//    public DateOfLoan getDate() {
+//        return date;
+//    }
+//
+//    public void setDate(DateOfLoan date) {
+//        this.date = date;
+//    }
     
 }

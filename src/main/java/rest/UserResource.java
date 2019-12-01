@@ -48,8 +48,8 @@ public class UserResource {
     
     @Path("register")
     @POST
-    //@Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
     public String registerUser(String user) throws MissingInputException {
         UserPassDTO userpassdto = GSON.fromJson(user, UserPassDTO.class);
         User u = USERFACADE.createUser(userpassdto.getName(), userpassdto.getUserpass());
