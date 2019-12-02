@@ -1,6 +1,7 @@
 package entities;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,6 +14,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "books")
@@ -33,6 +36,9 @@ public class Book implements Serializable {
     private int year;
     @Column(name = "book_status")
     private boolean status;
+    @Temporal(TemporalType.DATE)
+    @Column(name = "book_date")
+    private Date date;
 
     @JoinColumn(name = "book_author")
     @ManyToOne 
@@ -63,6 +69,10 @@ public class Book implements Serializable {
         this.status = false;
     }
 
+    public void setDate() {
+        this.date = new Date();
+    }
+    
     public void setAuthor(Author author) {
         this.author = author;
     }

@@ -102,7 +102,7 @@ public User userloanBook(String username, long id) throws NotFoundException {
         em.getTransaction().begin();
         user = em.find(User.class, username);
         book = em.find(Book.class, id);
-        user.LoanBook(book);
+        user.loanBook(book);
         em.merge(user);
         em.getTransaction().commit();
         if(user == null || book == null) {
