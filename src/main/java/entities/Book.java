@@ -1,7 +1,8 @@
 package entities;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Date;
+import java.util.Calendar;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,6 +14,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -43,6 +45,10 @@ public class Book implements Serializable {
     @JoinColumn(name = "book_author")
     @ManyToOne 
     private Author author;
+    
+//    @OneToMany(mappedBy = "booklist")
+//    @Temporal(TemporalType.DATE)
+//    private DateOfLoan date;
 
     @ManyToMany(mappedBy = "booklist")
     private List<User> userlist;
@@ -69,9 +75,9 @@ public class Book implements Serializable {
         this.status = false;
     }
 
-    public void setDate() {
-        this.date = new Date();
-    }
+//    public void setDate() {
+//        this.date = new Date();
+//    }
     
     public void setAuthor(Author author) {
         this.author = author;
@@ -80,6 +86,7 @@ public class Book implements Serializable {
     public Long getId() {
         return id;
     }
+    
 
     public void setId(Long id) {
         this.id = id;
@@ -133,5 +140,13 @@ public class Book implements Serializable {
     public Author getAuthor() {
         return author;
     }
+
+//    public DateOfLoan getDate() {
+//        return date;
+//    }
+//
+//    public void setDate(DateOfLoan date) {
+//        this.date = date;
+//    }
 
 }

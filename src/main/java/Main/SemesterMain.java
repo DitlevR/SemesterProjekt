@@ -39,9 +39,12 @@ public class SemesterMain {
         
         EntityManager em = EMF.createEntityManager();
         
+//        createUser() fra UserFacade virker
+//        FACADE.createUser("Anne", "blitter");
+
         //createUser() fra UserFacade virker
         FACADE.createUser("Emner", "112itter");
-        FACADE.createUser("Ulrik", "1rtef5er");
+//        FACADE.createUser("Ulrik", "1rtef5er");
         
         
         Author a1 = new Author("Hunter S. Thompson");
@@ -49,7 +52,6 @@ public class SemesterMain {
         Author a3 = new Author("Gro Steinsland");        
         
         Book b1 = new Book("Nordisk mytologi", "Beskrivelse af gammel nordisk mytologi og samfund", 502, a3, 1988);
-        b1.setDate();
         Book b2 = new Book("Runer", "Om runernes funktion og oprindelse", 332, a3, 2003);
         Book b3 = new Book("Frygt og lede i Las Vegas", "En journalist og hans advokat tager på stof drevet eventyr i lysenes by", 219, a1, 1971);
         Book b4 = new Book("Hekse i et kolonisamfund", "Om hekse i kolonisamfund", 127, a2, 1977);
@@ -69,10 +71,6 @@ public class SemesterMain {
         
        u1.setBooklist(booklist);
        u2.setBooklist(booklist);
-       
-//       u1.loanBook(b6);
-//       u1.loanBook(b7);
-//       u2.loanBook(b5);
 
         //em.persist(b);
         try{
