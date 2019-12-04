@@ -11,6 +11,8 @@ import entities.User;
 import errorhandling.MissingInputException;
 import facades.UserFacade;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -61,7 +63,8 @@ public class SemesterMain {
         
         User u1 = new User("Anne", "imorgeniaften");
         User u2 = new User("Sigurd", "ormiøje");
-        u2.setDate();
+      
+        u2.setDate(1995, 4, 12);
         
         List<Book> booklist = new ArrayList<>();
         

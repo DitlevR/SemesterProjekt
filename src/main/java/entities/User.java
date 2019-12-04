@@ -2,6 +2,7 @@ package entities;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -84,8 +85,14 @@ public class User implements Serializable {
         this.date = new Date();
     }
     
-    public void setDate(){
-        this.date = new Date();
+    public void setDate(int year, int month, int day){
+        Calendar myCal = Calendar.getInstance();
+        myCal.set(Calendar.YEAR, year);
+        myCal.set(Calendar.MONTH, month);
+        myCal.set(Calendar.DAY_OF_MONTH, day);
+        Date theDate = myCal.getTime();
+        
+        this.date = theDate;
     }
 
     public String getUserName() {
