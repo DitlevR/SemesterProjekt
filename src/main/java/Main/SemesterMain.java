@@ -28,7 +28,7 @@ public class SemesterMain {
             "jdbc:mysql://localhost:3307/sem3project",
             "dev",
             "ax2",
-            EMF_Creator.Strategy.DROP_AND_CREATE);//DROP_AND_CREATE CREATE
+            EMF_Creator.Strategy.CREATE);//DROP_AND_CREATE CREATE
      public static final UserFacade FACADE =  UserFacade.getUserFacade(EMF);
 
     /**
@@ -41,9 +41,9 @@ public class SemesterMain {
         
 //        createUser() fra UserFacade virker
 //        FACADE.createUser("Anne", "blitter");
-
-        //createUser() fra UserFacade virker
-        FACADE.createUser("Emner", "112itter");
+//
+//        createUser() fra UserFacade virker
+//        FACADE.createUser("Emner", "112itter");
 //        FACADE.createUser("Ulrik", "1rtef5er");
         
         
@@ -61,6 +61,7 @@ public class SemesterMain {
         
         User u1 = new User("Anne", "imorgeniaften");
         User u2 = new User("Sigurd", "ormiøje");
+        u2.setDate();
         
         List<Book> booklist = new ArrayList<>();
         
