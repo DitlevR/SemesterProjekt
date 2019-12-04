@@ -41,7 +41,7 @@ public class User implements Serializable {
     private List<Role> roleList = new ArrayList();
     
    @JoinTable(name = "book_lenders", 
-        joinColumns = {@JoinColumn(name = "user_name", referencedColumnName = "user_name")},
+        joinColumns = {@JoinColumn(name = "user_name", referencedColumnName = "user_name"), @JoinColumn(name = "date", referencedColumnName = "date")},
         inverseJoinColumns = {@JoinColumn(name = "book_id", referencedColumnName = "ID")})
     @ManyToMany
     private List<Book> booklist;  
@@ -49,7 +49,7 @@ public class User implements Serializable {
    //, inverseJoinColumns = {  @JoinColumn(name = "date", referencedColumnName = "utilDate")}
    
    @Temporal(TemporalType.TIMESTAMP)
-    private Date utilDate;
+    private Date date;
    
    
 //   @OneToMany(mappedBy = "user")
@@ -68,7 +68,7 @@ public class User implements Serializable {
     
 
     public User() {
-        this.utilDate = new Date();
+        this.date = new Date();
     }
 
     //TODO Change when password is hashed
@@ -81,11 +81,11 @@ public class User implements Serializable {
 
         this.userPass = BCrypt.hashpw(userPass, BCrypt.gensalt(12));
         
-        this.utilDate = new Date();
+        this.date = new Date();
     }
     
     public void setDate(){
-        this.utilDate = new Date();
+        this.date = new Date();
     }
 
     public String getUserName() {

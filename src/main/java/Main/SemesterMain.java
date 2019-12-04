@@ -28,7 +28,7 @@ public class SemesterMain {
             "jdbc:mysql://localhost:3307/sem3project",
             "dev",
             "ax2",
-            EMF_Creator.Strategy.CREATE);//DROP_AND_CREATE CREATE
+            EMF_Creator.Strategy.DROP_AND_CREATE);//DROP_AND_CREATE CREATE
      public static final UserFacade FACADE =  UserFacade.getUserFacade(EMF);
 
     /**
