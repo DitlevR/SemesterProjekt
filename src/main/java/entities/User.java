@@ -85,7 +85,7 @@ public class User implements Serializable {
         this.date = new Date();
     }
     
-    public void setDate(int year, int month, int day){
+    public void setDateManual(int year, int month, int day){
         Calendar myCal = Calendar.getInstance();
         myCal.set(Calendar.YEAR, year);
         myCal.set(Calendar.MONTH, month);
@@ -133,6 +133,7 @@ public class User implements Serializable {
     
     public void loanBook(Book book) {
         this.booklist.add(book);
+        this.date = new Date();
     }
 
     public void removeLoanedBook(Book book) {
