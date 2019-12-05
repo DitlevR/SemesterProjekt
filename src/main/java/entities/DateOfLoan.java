@@ -30,7 +30,7 @@ public class DateOfLoan implements Serializable {
     private Long id;
     
     @Temporal(TemporalType.DATE)
-    private Date date = Date.from(Instant.now());
+    private Date date; // = Date.from(Instant.now());
 
     @ManyToOne
     @JoinColumn(name = "username")
@@ -39,39 +39,24 @@ public class DateOfLoan implements Serializable {
     @ManyToOne
     @JoinColumn(name = "book_id")
     Book book;
- 
-    
+
+    public DateOfLoan() {
+        this.date = new Date();
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setBook(Book book) {
+        this.book = book;
+    }
+     
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof DateOfLoan)) {
-            return false;
-        }
-        DateOfLoan other = (DateOfLoan) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "entities.DateOfLoan[ id=" + id + " ]";
-    }
-    
+    }    
 }

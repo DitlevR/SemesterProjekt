@@ -1,6 +1,7 @@
 package entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Calendar;
 import java.util.List;
@@ -38,9 +39,9 @@ public class Book implements Serializable {
     private int year;
     @Column(name = "book_status")
     private boolean status;
-    @Temporal(TemporalType.DATE)
-    @Column(name = "book_date")
-    private Date date;
+    //@Temporal(TemporalType.DATE)
+//    @Column(name = "book_date")
+//    private Date date;
 
     @JoinColumn(name = "book_author")
     @ManyToOne 
@@ -53,8 +54,9 @@ public class Book implements Serializable {
     @ManyToMany(mappedBy = "booklist")
     private List<User> userlist;
     
+    @OneToMany
+    private List<DateOfLoan> loans = new ArrayList();
     
-
     public Book() {
     }
 

@@ -41,16 +41,20 @@ public class User implements Serializable {
     @ManyToMany
     private List<Role> roleList = new ArrayList();
     
-   @JoinTable(name = "book_lenders", 
-        joinColumns = {@JoinColumn(name = "user_name", referencedColumnName = "user_name"), @JoinColumn(name = "date", referencedColumnName = "date")},
-        inverseJoinColumns = {@JoinColumn(name = "book_id", referencedColumnName = "ID")})
-    @ManyToMany
+//   @JoinTable(name = "book_lenders", 
+//        joinColumns = {@JoinColumn(name = "user_name", referencedColumnName = "user_name")},
+//        inverseJoinColumns = {@JoinColumn(name = "book_id", referencedColumnName = "ID")})
+//    @ManyToMany
     private List<Book> booklist;  
    
-   //, inverseJoinColumns = {  @JoinColumn(name = "date", referencedColumnName = "utilDate")}
+   @OneToMany
+    private List<DateOfLoan> loans = new ArrayList();
    
-   @Temporal(TemporalType.TIMESTAMP)
-    private Date date;
+   //, inverseJoinColumns = {  @JoinColumn(name = "date", referencedColumnName = "utilDate")}
+
+//, @JoinColumn(name = "date", referencedColumnName = "date")   
+//   @Temporal(TemporalType.TIMESTAMP)
+//    private Date date;
    
    
 //   @OneToMany(mappedBy = "user")
@@ -69,7 +73,7 @@ public class User implements Serializable {
     
 
     public User() {
-        this.date = new Date();
+        //this.date = new Date();
     }
 
     //TODO Change when password is hashed
@@ -82,7 +86,7 @@ public class User implements Serializable {
 
         this.userPass = BCrypt.hashpw(userPass, BCrypt.gensalt(12));
         
-        this.date = new Date();
+        //this.date = new Date();
     }
     
     public void setDateManual(int year, int month, int day){
@@ -92,7 +96,7 @@ public class User implements Serializable {
         myCal.set(Calendar.DAY_OF_MONTH, day);
         Date theDate = myCal.getTime();
         
-        this.date = theDate;
+        //this.date = theDate;
     }
 
     public String getUserName() {
@@ -133,7 +137,7 @@ public class User implements Serializable {
     
     public void loanBook(Book book) {
         this.booklist.add(book);
-        this.date = new Date();
+        //this.date = new Date();
     }
 
     public void removeLoanedBook(Book book) {
