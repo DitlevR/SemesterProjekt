@@ -25,8 +25,40 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriInfo;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.info.Contact;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.servers.Server;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
-//Todo Remove or change relevant parts before ACTUAL use
+@OpenAPIDefinition(
+        info = @Info(
+                title = "Book API",
+                version = "0.1",
+                description = "Simple API to get info about Books.",
+                contact = @Contact(name = "Ditlev Andersen", email = "cph-di22@cphbusiness.dk")
+        ),
+        tags = {
+            @Tag(name = "Book", description = "API related to Books")
+
+        },
+        servers = {
+            @Server(
+                    description = "For Local host testing",
+                    url = "http://localhost:8080/semesterprojekt"
+            ),
+            @Server(
+                    description = "Server API",
+                    url = "http://idon.dk/semesterprojekt"
+            )
+
+        }
+)
+
+
 @Path("book")
 public class BookResource {
 
@@ -51,6 +83,13 @@ public class BookResource {
     @Path("allbooks")
     @GET
     @Produces({MediaType.APPLICATION_JSON})
+    @Operation(summary = "Get allbooks",
+            tags = {"person"},
+            responses = {
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                        content = @Content(mediaType = "application/json", schema = @Schema(implementation = Book.class))),
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "All books"),
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "No books found")})
     //@RolesAllowed("user")
     public String getAllBooks() throws NotFoundException {
         //BooksDTO allbooks = new BooksDTO(FACADE.getAllBooks());
