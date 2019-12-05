@@ -12,7 +12,10 @@ public class ApplicationConfig extends Application {
     public Set<Class<?>> getClasses() {
         Set<Class<?>> resources = new java.util.HashSet<>();
         addRestResourceClasses(resources);
+        resources.add(OpenApiResource.class);
+        resources.add(AcceptHeaderOpenApiResource.class);
         return resources;
+        
     }
 
     /**
@@ -32,8 +35,7 @@ public class ApplicationConfig extends Application {
         resources.add(security.JWTAuthenticationFilter.class);
         resources.add(security.LoginEndpoint.class);
         resources.add(security.RolesAllowedFilter.class);
-        resources.add(OpenApiResource.class);
-        resources.add(AcceptHeaderOpenApiResource.class);
+        
     }
     
 }

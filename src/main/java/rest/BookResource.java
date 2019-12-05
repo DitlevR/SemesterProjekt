@@ -73,18 +73,12 @@ public class BookResource {
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     private static final UserFacade USERFACADE = UserFacade.getUserFacade(EMF);
 
-    @GET
-    @Produces({MediaType.APPLICATION_JSON})
-    public String book() {
-
-        return "{\"Book\":" + "}";
-    }
 
     @Path("allbooks")
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @Operation(summary = "Get allbooks",
-            tags = {"person"},
+            tags = {"Book"},
             responses = {
                 @io.swagger.v3.oas.annotations.responses.ApiResponse(
                         content = @Content(mediaType = "application/json", schema = @Schema(implementation = Book.class))),
@@ -105,6 +99,13 @@ public class BookResource {
     @Path("{search}")
     @GET
     @Produces({MediaType.APPLICATION_JSON})
+    @Operation(summary = "Search for book",
+            tags = {"Book"},
+            responses = {
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                        content = @Content(mediaType = "application/json", schema = @Schema(implementation = Book.class))),
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "The requested books"),
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "No books found")})
     public String makeSearch(@PathParam("search") String search) throws NotFoundException {
         List<BookDTO> result = new ArrayList<>();
         List<Book> books = FACADE.searchForBook(search);
@@ -119,6 +120,13 @@ public class BookResource {
     @Path("loanbook/{id}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Set book to loaned",
+            tags = {"Book"},
+            responses = {
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                        content = @Content(mediaType = "application/json", schema = @Schema(implementation = Book.class))),
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "loan book"),
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "No books found")})
     public String setBookToLoan(@PathParam("id") long id) {
         BookDTO dto = new BookDTO(FACADE.setBookToLoaned(id));
         return GSON.toJson(dto);
@@ -128,6 +136,13 @@ public class BookResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Add new book",
+            tags = {"Book"},
+            responses = {
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                        content = @Content(mediaType = "application/json", schema = @Schema(implementation = Book.class))),
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "The book created"),
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Missing parameters")})
     public String saveBook(String book) throws MissingInputException {
         Book newbook = GSON.fromJson(book, Book.class);
         newbook = FACADE.saveBook(newbook.getTitle(), newbook.getDescription(), newbook.getPageNumber(), newbook.getYear());
@@ -137,6 +152,13 @@ public class BookResource {
     @Path("getbook/{id}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Get book by ID",
+            tags = {"Book"},
+            responses = {
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                        content = @Content(mediaType = "application/json", schema = @Schema(implementation = Book.class))),
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "requested book"),
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "No books found")})
     public String getBook(@PathParam("id") long id) throws NotFoundException {
         BookDTO dto = new BookDTO(FACADE.getBook(id));
         return GSON.toJson(dto);
@@ -146,6 +168,13 @@ public class BookResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
+    @Operation(summary = "UserLoanBook",
+            tags = {"Book"},
+            responses = {
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                        content = @Content(mediaType = "application/json", schema = @Schema(implementation = Book.class))),
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "The user along with the loaned book"),
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "No user found")})
     public String userLoanBook(String json) throws NotFoundException {
         BookLend booklend = GSON.fromJson(json, BookLend.class);
         User user = USERFACADE.userloanBook(booklend.getUsername(), booklend.getBook_id());
@@ -157,6 +186,13 @@ public class BookResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Return a book as user",
+            tags = {"Book"},
+            responses = {
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                        content = @Content(mediaType = "application/json", schema = @Schema(implementation = Book.class))),
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "User with loaned books"),
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "No user found")})
     public String returnBook(String json) throws NotFoundException {
         BookLend booklend = GSON.fromJson(json, BookLend.class);
         User user = USERFACADE.userReturnBook(booklend.getUsername(), booklend.getBook_id());
