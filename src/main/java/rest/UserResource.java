@@ -38,13 +38,6 @@ public class UserResource {
     private static final UserFacade USERFACADE = UserFacade.getUserFacade(EMF);
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
-    @GET
-    @Produces({MediaType.APPLICATION_JSON})
-    public String book() {
-
-        return "{\"User\":" + "}";
-    }
-
     @Path("register")
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
