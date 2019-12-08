@@ -40,7 +40,7 @@ public class UserResource {
 
     @GET
     @Produces({MediaType.APPLICATION_JSON})
-    public String book() {
+    public String user() {
 
         return "{\"User\":" + "}";
     }
