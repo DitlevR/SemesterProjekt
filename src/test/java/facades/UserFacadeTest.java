@@ -2,8 +2,11 @@ package facades;
 
 import entities.Author;
 import entities.Book;
+import entities.DateOfLoan;
+import entities.User;
 import errorhandling.MissingInputException;
 import errorhandling.NotFoundException;
+import io.restassured.RestAssured;
 import utils.EMF_Creator;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -20,12 +23,13 @@ import utils.EMF_Creator.Strategy;
 
 //Uncomment the line below, to temporarily disable this test
 //@Disabled
-public class BookFacadeTest {
+public class UserFacadeTest {
 
     private static EntityManagerFactory emf;
-    private static BookFacade facade;
+    private static UserFacade facade;
+    private static User u1, u2;
 
-    public BookFacadeTest() {
+    public UserFacadeTest() {
     }
 
     //@BeforeAll
@@ -36,7 +40,7 @@ public class BookFacadeTest {
                 "dev",
                 "ax2",
                 EMF_Creator.Strategy.CREATE);
-        facade = BookFacade.getBookFacade(emf);
+        facade = UserFacade.getUserFacade(emf);
     }
 
     /*   **** HINT **** 
@@ -48,7 +52,7 @@ public class BookFacadeTest {
     @BeforeAll
     public static void setUpClassV2() {
         emf = EMF_Creator.createEntityManagerFactory(DbSelector.TEST, Strategy.DROP_AND_CREATE);
-        facade = BookFacade.getBookFacade(emf);
+        facade = UserFacade.getUserFacade(emf);
     }
 
     @AfterAll
@@ -61,13 +65,20 @@ public class BookFacadeTest {
     @BeforeEach
     public void setUp() {
         EntityManager em = emf.createEntityManager();
+        u1 = new User("John", "qwe123");
+        u2 = new User("Hans", "kwhu11");
         Author a3 = new Author("Gro Steinsland");
+        Book b1 = new Book("Nordisk mytologi", "Beskrivelse af gammel nordisk mytologi og samfund", 502, a3, 1990);
+        Book b2 = new Book("Runer", "Om runernes funktion og oprindelse", 332, a3, 2008);
+        u1.loanBook(b2);
+
         try {
 
             em.getTransaction().begin();
-            em.createNamedQuery("Book.deleteAllRows").executeUpdate();
-            em.persist(new Book("Nordisk mytologi", "Beskrivelse af gammel nordisk mytologi og samfund", 502, a3, 1990));
-            em.persist(new Book("Runer", "Om runernes funktion og oprindelse", 332, a3, 2008));
+            em.createNamedQuery("User.deleteAllRows").executeUpdate();
+
+            em.persist(u1);
+            em.persist(u2);
 
             em.getTransaction().commit();
         } finally {
@@ -77,20 +88,27 @@ public class BookFacadeTest {
 
     @AfterEach
     public void tearDown() {
-//        Remove any data after each test was run
+
     }
 
-    // TODO: Delete or change this method 
     @Test
-    public void testGetAllBooks() throws NotFoundException {
-        assertEquals(2, facade.getAllBooks().size());
+    public void testGetUserName() throws NotFoundException {
+        assertEquals(u1.getUserName(), facade.getUser(u1.getUserName()).getUserName());
     }
-    
+
     @Test
-    public void testAddBook() throws NotFoundException, MissingInputException {
-        Book book = facade.saveBook("New Book", "New Book to db", 154, 1995);
-        Assertions.assertNotNull(book);
+    public void testGetLoanedBooksFromUser() throws NotFoundException {
+        assertEquals(1, facade.getUser(u1.getUserName()).getBooklist().size());
+    }
+
+    @Test
+    public void testCreateUser() throws NotFoundException, MissingInputException {
         
+        
+        User user = facade.createUser("Claus", "qweqwe");
+        
+        Assertions.assertNotNull(user);
+
     }
 
 }

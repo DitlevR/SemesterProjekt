@@ -58,7 +58,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
         }
 )
 
-
 @Path("book")
 public class BookResource {
 
@@ -69,10 +68,9 @@ public class BookResource {
 
     @Context
     SecurityContext securityContext;
-    private static final BookFacade FACADE = BookFacade.getBookFacade(EMF);
+    private static final BookFacade BOOKFACADE = BookFacade.getBookFacade(EMF);
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     private static final UserFacade USERFACADE = UserFacade.getUserFacade(EMF);
-
 
     @Path("allbooks")
     @GET
@@ -86,9 +84,9 @@ public class BookResource {
                 @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "No books found")})
     //@RolesAllowed("user")
     public String getAllBooks() throws NotFoundException {
-        //BooksDTO allbooks = new BooksDTO(FACADE.getAllBooks());
+        //BooksDTO allbooks = new BooksDTO(BOOKFACADE.getAllBooks());
         List<BookDTO> allbooks = new ArrayList<>();
-        List<Book> books = FACADE.getAllBooks();
+        List<Book> books = BOOKFACADE.getAllBooks();
         for (Book b : books) {
             allbooks.add(new BookDTO(b));
         }
@@ -108,28 +106,13 @@ public class BookResource {
                 @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "No books found")})
     public String makeSearch(@PathParam("search") String search) throws NotFoundException {
         List<BookDTO> result = new ArrayList<>();
-        List<Book> books = FACADE.searchForBook(search);
+        List<Book> books = BOOKFACADE.searchForBook(search);
 
         for (Book b : books) {
             result.add(new BookDTO(b));
         }
 
         return GSON.toJson(result);
-    }
-
-    @Path("loanbook/{id}")
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Operation(summary = "Set book to loaned",
-            tags = {"Book"},
-            responses = {
-                @io.swagger.v3.oas.annotations.responses.ApiResponse(
-                        content = @Content(mediaType = "application/json", schema = @Schema(implementation = Book.class))),
-                @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "loan book"),
-                @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "No books found")})
-    public String setBookToLoan(@PathParam("id") long id) {
-        BookDTO dto = new BookDTO(FACADE.setBookToLoaned(id));
-        return GSON.toJson(dto);
     }
 
     @Path("add")
@@ -145,7 +128,7 @@ public class BookResource {
                 @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Missing parameters")})
     public String saveBook(String book) throws MissingInputException {
         Book newbook = GSON.fromJson(book, Book.class);
-        newbook = FACADE.saveBook(newbook.getTitle(), newbook.getDescription(), newbook.getPageNumber(), newbook.getYear());
+        newbook = BOOKFACADE.saveBook(newbook.getTitle(), newbook.getDescription(), newbook.getPageNumber(), newbook.getYear());
         return GSON.toJson(newbook);
     }
 
@@ -160,7 +143,7 @@ public class BookResource {
                 @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "requested book"),
                 @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "No books found")})
     public String getBook(@PathParam("id") long id) throws NotFoundException {
-        BookDTO dto = new BookDTO(FACADE.getBook(id));
+        BookDTO dto = new BookDTO(BOOKFACADE.getBook(id));
         return GSON.toJson(dto);
     }
 
@@ -168,7 +151,7 @@ public class BookResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(summary = "UserLoanBook",
+    @Operation(summary = "userLoanBook",
             tags = {"Book"},
             responses = {
                 @io.swagger.v3.oas.annotations.responses.ApiResponse(
@@ -178,10 +161,11 @@ public class BookResource {
     public String userLoanBook(String json) throws NotFoundException {
         BookLend booklend = GSON.fromJson(json, BookLend.class);
         User user = USERFACADE.userloanBook(booklend.getUsername(), booklend.getBook_id());
+        BOOKFACADE.setBookToLoaned(booklend.getBook_id());
         return GSON.toJson(new UserDTO(user));
-        
+
     }
-    
+
     @Path("userReturnBook")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -196,6 +180,7 @@ public class BookResource {
     public String returnBook(String json) throws NotFoundException {
         BookLend booklend = GSON.fromJson(json, BookLend.class);
         User user = USERFACADE.userReturnBook(booklend.getUsername(), booklend.getBook_id());
+        BOOKFACADE.setBookToAvailable(booklend.getBook_id());
         return GSON.toJson(new UserDTO(user));
     }
 

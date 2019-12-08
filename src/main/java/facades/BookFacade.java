@@ -84,7 +84,7 @@ public class BookFacade {
         try {
             em.getTransaction().begin();
             book = em.find(Book.class, id);
-            book.setStatus(true);
+            book.setStatus(false);
             em.persist(book);
             em.getTransaction().commit();
             return book;
@@ -94,13 +94,29 @@ public class BookFacade {
         }
     }
 
+    public Book setBookToAvailable(long id) {
+        EntityManager em = getEntityManager();
+        Book book;
+        try {
+            em.getTransaction().begin();
+            book = em.find(Book.class, id);
+            book.setStatus(true);
+            em.persist(book);
+            em.getTransaction().commit();
+            return book;
+
+        } finally {
+            em.close();
+        }
+    }
     public Book saveBook(String title, String description, int pageNumber, int year) throws MissingInputException {
         EntityManager em = getEntityManager();
-        Book book = new Book(title, description, pageNumber, year);
+        Book book = null;
         if (title == null || description == null
                 || title == "" || description == "" || pageNumber == 0 || year == 0) {
             throw new MissingInputException("Missung input for book");
         }
+        book = new Book(title, description, pageNumber, year);
 
         try {
             em.persist(book);
