@@ -5,7 +5,6 @@
  */
 package dtos;
 
-import entities.Author;
 import entities.Book;
 
 /**
